@@ -1,3 +1,13 @@
+DIY Packagist
+=========
+
+Its a fork of original Packagist repository, slitly modified in order to handle your private Git repostiry.
+
+**Note:** Its not a replacement of Private Packagist as you still need your own server to store this software as well as git repositories.
+
+
+
+
 Packagist
 =========
 
@@ -22,6 +32,7 @@ Installation
 5. Run `app/console assets:install web` to deploy the assets on the web dir.
 6. Run `app/console cache:warmup --env=prod` and `app/console cache:warmup --env=prod` to warmup cache
 7. Make a VirtualHost with DocumentRoot pointing to web/
+8. Run ` app/console packagist:run-workers` in order to crawl packages
 
 You should now be able to access the site, create a user, etc.
 
