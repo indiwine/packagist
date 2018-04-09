@@ -70,7 +70,9 @@ class UpdaterWorker
 
         $this->logger->info('Updating '.$package->getName());
 
+
         $config = Factory::createConfig();
+        $config->merge($package->getHttpAuthData());
         $io = new BufferIO('', OutputInterface::VERBOSITY_VERY_VERBOSE, new HtmlOutputFormatter(Factory::createAdditionalStyles()));
         $io->loadConfiguration($config);
 

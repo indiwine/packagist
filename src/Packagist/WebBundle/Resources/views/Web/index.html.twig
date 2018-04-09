@@ -17,6 +17,24 @@
 
             <p>For more information about packages versions usage, see the <a href="https://getcomposer.org/doc/01-basic-usage.md#package-versions">composer documentation</a>.</p>
 
+            <h3>Tune your composer.json</h3>
+            <p>In order to use this repository add some more configuration parameters:</p>
+            <pre><code>{
+{% if isHttps == false %}
+    "config": {
+       "secure-http": false
+    },
+{% endif %}
+    "repositories":
+    [
+        {
+            "type": "composer",
+            "url": "{{ url('home') }}"
+        }
+    ]
+}</code></pre>
+
+
             <h3>Install Composer In Your Project</h3>
             <p>Run this in your command line:</p>
             <pre><code>curl -sS https://getcomposer.org/installer | php</code></pre>
@@ -34,32 +52,5 @@
         </div>
     </section>
 
-    <section class="col-lg-6 publishing-packages">
-        <h2 class="title">Publishing Packages</h2>
-        <div>
-            <h3>Define Your Package</h3>
-            <p>Put a file named <em>composer.json</em> at the root of your package's repository, containing this information:</p>
-            <pre><code>{
-    "name": "your-vendor-name/package-name",
-    "description": "A short description of what your package does",
-    "require": {
-        "php": "^5.3.3 || ^7.0",
-        "another-vendor/package": "1.*"
-    }
-}</code></pre>
-            <p>This is the strictly minimal information you have to give.</p>
-            <p>For more details about package naming and the fields you can use to document your package better, see the <a href="{{ path('about') }}">about</a> page.</p>
-
-            <h3>Commit The File</h3>
-            <p>Add the <code>composer.json</code> to your git or other VCS repository and commit it.</p>
-
-            <h3>Publish It</h3>
-            <p><a href="{{ path('hwi_oauth_connect') }}">Login</a> or <a href="{{ path('fos_user_registration_register') }}">register</a> on this site, then hit the <a href="{{ path('submit') }}">submit</a> button in the menu.</p>
-            <p>Once you entered your public repository URL in there, your package will be automatically crawled periodically. You just have to make sure you keep the composer.json file up to date.</p>
-
-            <h3>Sharing Private Code</h3>
-            <p>Use <a href="https://packagist.com">Private Packagist</a> if you want to share private code as a Composer package with colleagues or customers without publishing it for everyone on Packagist.org. Private Packagist allows you to manage your own private Composer repository with per-user authentication, team management and integration in version control systems.</p>
-        </div>
-    </section>
 </section>
 {% endblock %}

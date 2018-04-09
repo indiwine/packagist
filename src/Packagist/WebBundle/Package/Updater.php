@@ -275,7 +275,13 @@ class Updater
 
         if ($data->getSourceType()) {
             $source['type'] = $data->getSourceType();
-            $source['url'] = $data->getSourceUrl();
+            $altRepo = $package->getAltRepository();
+            if (empty($altRepo)) {
+                $source['url'] = $data->getSourceUrl();
+            } else {
+                $source['url'] = $altRepo;
+            }
+
             $source['reference'] = $data->getSourceReference();
             $version->setSource($source);
         } else {

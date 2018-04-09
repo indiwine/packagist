@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8" />
 
-        <title>{% block title %}Packagist{% endblock %}</title>
-        <meta name="description" content="{% block description %}The PHP Package Repository{% endblock %}" />
+        <title>{% block title %}DIY Packagist{% endblock %}</title>
+        <meta name="description" content="{% block description %}Your Own PHP Package Repository{% endblock %}" />
         <meta name="author" content="Jordi Boggiano" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -109,7 +109,7 @@
             </nav>
         </header>
 
-        {{ include("PackagistWebBundle:Web:searchSection.html.twig", {showSearchDesc: showSearchDesc|default('show')}) }}
+        {{ include("PackagistWebBundle:Web:searchSection.html.twig", {showSearchDesc: 'no'}) }}
 
         {% block flashMessages %}
             {%- if app.session.flashbag.peekAll()|length > 0 %}
@@ -171,9 +171,7 @@
             <nav class="container">
                 <div class="row">
                     <ul class="social col-xs-7 col-sm-4 col-md-2 pull-right">
-                        <li><a href="http://github.com/composer/packagist" title="{{ 'menu.github'|trans }}"><span class="icon-github"></span></a></li>
-                        <li><a href="https://twitter.com/packagist" title="{{ 'menu.twitter'|trans }}"><span class="icon-twitter"></span></a></li>
-                        <li><a href="mailto:contact@packagist.org" title="{{ 'menu.contact'|trans }}"><span class="icon-mail"></span></a></li>
+                        <li><a href="https://github.com/indiwine/packagist" title="{{ 'menu.github'|trans }}"><span class="icon-github"></span></a></li>
                     </ul>
 
                     <ul class="col-xs-4 col-md-2">
@@ -196,9 +194,7 @@
 
                 </div>
 
-                <div class="row">
-                    <p class="toran col-xs-12">Packagist maintenance and hosting is supported by <a href="https://packagist.com/">Private Packagist</a></p>
-                </div>
+
             </nav>
         </footer>
 

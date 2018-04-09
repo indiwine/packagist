@@ -56,7 +56,8 @@
         "nelmio/cors-bundle": "^1.4",
         "cebe/markdown": "^1.1",
         "algolia/algoliasearch-client-php": "^1.18",
-        "seld/signal-handler": "^1.1"
+        "seld/signal-handler": "^1.1",
+        "defuse/php-encryption": "^2.1"
     },
     "_comment": ["fos user bundle 2.0.0 tag needed"],
     "require-dev": {

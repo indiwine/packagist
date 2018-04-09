@@ -2,6 +2,8 @@
 
 ini_set('date.timezone', 'UTC');
 
+putenv('COMPOSER_HOME=/home/admin');
+putenv('GIT_SSL_NO_VERIFY=true');
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;

@@ -14,6 +14,7 @@ namespace Packagist\WebBundle\Form\Type;
 
 use Packagist\WebBundle\Entity\Package;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,12 +26,25 @@ class PackageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('repository', TextType::class, array(
-            'label' => 'Repository URL (Git/Svn/Hg)',
-            'attr'  => array(
-                'placeholder' => 'e.g.: https://github.com/composer/composer',
-            )
-        ));
+        $builder
+            ->add('vcsName', TextType::class, [
+                'label' => 'HTTP Auth Name'
+            ])
+            ->add('vcsPassword', PasswordType::class, [
+                'label' => 'HTTP Auth Password'
+            ])
+            ->add('repository', TextType::class, array(
+                'label' => 'HTTPS Repository URL (Git) ',
+                'attr' => array(
+                    'placeholder' => 'e.g.: https://github.com/composer/composer',
+                )
+            ))->add('altRepository', TextType::class, [
+                'label' => 'Alternative Repository URL (Git) (Will be used instead of main)',
+                'attr' => array(
+                    'placeholder' => 'e.g.: ssh://...',
+                ),
+                'required' => false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

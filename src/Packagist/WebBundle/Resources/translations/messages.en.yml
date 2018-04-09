@@ -1,5 +1,5 @@
 menu:
-    about_packagist: About Packagist
+    about_packagist: About DIY Packagist
     rss_feeds: Atom/RSS Feeds
     about_composer: About Composer
     home: Home
@@ -150,8 +150,8 @@ user:
     packages: "%username%'s packages"
 
 'Search packages...': 'Search packages...'
-brandname: Packagist
-navclaim: The PHP Package Repository
+brandname: DIY Packagist
+navclaim: Your Own PHP Package Repository
 Sort: 'Sort'
 Order: 'Order'
 Username: 'Username'

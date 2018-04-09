@@ -17,6 +17,7 @@ use Composer\IO\NullIO;
 use Composer\Repository\VcsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Interop\Container\ContainerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Composer\Repository\Vcs\GitHubDriver;
@@ -158,6 +159,26 @@ class Package
      * @ORM\Column(type="boolean", options={"default"=false})
      */
     private $updateFailureNotified = false;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    private $vcsName;
+
+    /**
+     * @var string
+     * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     */
+    private $vcsPassword;
+
+    /**
+     * @var
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $altRepository;
 
     private $entityRepository;
     private $router;
@@ -354,6 +375,32 @@ class Package
                 ;
             }
         } catch (\Doctrine\ORM\NoResultException $e) {}
+    }
+
+    /**
+     *
+     * @return array
+     */
+    public function getHttpAuthData()
+    {
+        $re = '/^((http[s]?|ftp):\/)?\/?(?<host>[^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$/';
+        $i = preg_match($re, $this->getRepository(), $matches);
+
+        if ($i < 1) {
+            return [];
+        }
+        $host = $matches['host'];
+        return [
+            'config' => [
+                'http-basic' => [
+                    $host => [
+                        'username' => $this->getVcsName(),
+                        'password' => $this->getVcsPassword()
+                    ]
+                ]
+
+            ]
+        ];
     }
 
     /**
@@ -581,6 +628,8 @@ class Package
         try {
             $io = new NullIO();
             $config = Factory::createConfig();
+
+            $config->merge($this->getHttpAuthData());
             $io->loadConfiguration($config);
             $repository = new VcsRepository(array('url' => $this->repository), $io, $config);
 
@@ -854,5 +903,54 @@ class Package
 
         // the rest is sorted by version
         return version_compare($bVersion, $aVersion);
+    }
+
+    /**
+     * @return string
+     */
+    public function getVcsName()
+    {
+        return $this->vcsName;
+    }
+
+    /**
+     * @param string $vcsName
+     */
+    public function setVcsName(string $vcsName)
+    {
+        $this->vcsName = $vcsName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVcsPassword()
+    {
+        return $this->vcsPassword;
+    }
+
+    /**
+     * @param string $vcsPassword
+     */
+    public function setVcsPassword(string $vcsPassword)
+    {
+
+        $this->vcsPassword = $vcsPassword;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAltRepository()
+    {
+        return $this->altRepository;
+    }
+
+    /**
+     * @param mixed $altRepository
+     */
+    public function setAltRepository($altRepository)
+    {
+        $this->altRepository = $altRepository;
     }
 }

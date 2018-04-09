@@ -152,6 +152,10 @@ services:
         class: Packagist\WebBundle\Service\Locker
         arguments: ["@doctrine"]
 
+    encryption:
+        class: Packagist\WebBundle\Service\Encryption
+        arguments: ['@logger', '%private_key_directory%', '@filesystem']
+
     updater_worker:
         class: Packagist\WebBundle\Service\UpdaterWorker
         arguments: ["@logger", "@doctrine", "@packagist.package_updater", "@locker", "@scheduler", "@packagist.package_manager"]
@@ -165,6 +169,13 @@ services:
         arguments: []
         calls:
           - [includeStacktraces, [true]]
+
+    package.password.encryption:
+        class: Packagist\WebBundle\EventListener\PackageEncryptionSubscriber
+        arguments: ['@encryption']
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
 
 parameters:
     security.exception_listener.class: Packagist\WebBundle\Security\ExceptionListener

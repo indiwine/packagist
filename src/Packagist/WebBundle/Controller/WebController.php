@@ -31,9 +31,9 @@ class WebController extends Controller
      * @Template()
      * @Route("/", name="home")
      */
-    public function indexAction()
-    {
-        return array('page' => 'home');
+    public function indexAction(Request $req)
+    {;
+        return array('page' => 'home', 'isHttps'=> $req->isSecure());
     }
 
     /**

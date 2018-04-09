@@ -20,6 +20,7 @@ use Packagist\WebBundle\Form\Type\AddMaintainerRequestType;
 use Packagist\WebBundle\Form\Type\PackageType;
 use Packagist\WebBundle\Form\Type\RemoveMaintainerRequestType;
 use Predis\Connection\ConnectionException;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -761,6 +762,9 @@ class PackageController extends Controller
 
         $form = $this->createFormBuilder($package, array("validation_groups" => array("Update")))
             ->add('repository', TextType::class)
+            ->add('vcsName', TextType::class)
+            ->add('vcsPassword', PasswordType::class)
+            ->add('altRepository', TextType::class)
             ->setMethod('POST')
             ->setAction($this->generateUrl('edit_package', ['name' => $package->getName()]))
             ->getForm();
@@ -768,12 +772,12 @@ class PackageController extends Controller
         $form->handleRequest($req);
         if ($form->isValid()) {
             // Force updating of packages once the package is viewed after the redirect.
-            $package->setCrawledAt(null);
+//            $package->setCrawledAt(null);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($package);
             $em->flush();
-
+            $this->get('scheduler')->scheduleUpdate($package, true);
             $this->get("session")->getFlashBag()->set("success", "Changes saved.");
 
             return $this->redirect(

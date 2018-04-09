@@ -25,6 +25,8 @@ parameters:
 
     locale: en
 
+    private_key_directory: "%kernel.root_dir%/keys"
+
     google_analytics:
         ga_key:
 
