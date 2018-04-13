@@ -2,6 +2,8 @@
 
 use Symfony\Component\HttpFoundation\Request;
 
+
+putenv('GIT_SSL_NO_VERIFY=true');
 /**
  * @var \Symfony\Component\ClassLoader\ClassLoader
  */

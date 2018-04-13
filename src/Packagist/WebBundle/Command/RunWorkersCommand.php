@@ -23,6 +23,7 @@ class RunWorkersCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        putenv('GIT_SSL_NO_VERIFY=true');
         $lock = new LockHandler('packagist_run_' . $input->getOption('worker-id'));
 
         // another dumper is still active
